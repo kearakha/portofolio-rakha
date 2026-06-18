@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Single-value content: site info, hero, about body, section labels, footer, etc.
+// Stored as JSON keyed by name. Bilingual fields live inside the JSON as { en, id }.
+model Singleton {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model Experience {
+  id           String   @id @default(cuid())
+  order        Int      @default(0)
+  period       String
+  org          String
+  role         String
+  division     String
+  tags         String[]
+  logoInitials String
+  logoColor    String
+  logoImage    String?
+  descEn       String
+  descId       String
+}
+
+model SelectedWork {
+  id           String   @id @default(cuid())
+  order        Int      @default(0)
+  title        String
+  partner      String
+  period       String
+  descEn       String
+  descId       String
+  tags         String[]
+  gradientFrom String
+  gradientTo   String
+  image        String?
+  href         String   @default("#")
+}
+
+model Project {
+  id    String   @id @default(cuid())
+  order Int      @default(0)
+  badge String
+  title String
+  tags  String[]
+  href  String   @default("#")
+}
+
+model SmallProject {
+  id       String   @id @default(cuid())
+  order    Int      @default(0)
+  title    String
+  descEn   String
+  descId   String
+  tags     String[]
+  year     String
+  href     String   @default("#")
+  badge    String?
+  image    String?
+  isActive Boolean  @default(true)
+}
+
+model Education {
+  id          String   @id @default(cuid())
+  order       Int      @default(0)
+  institution String
+  short       String
+  degree      String
+  period      String
+  gpa         String?
+  descEn      String
+  descId      String
+  tags        String[]
+}
+
+model Skill {
+  id       String @id @default(cuid())
+  order    Int    @default(0)
+  name     String
+  level    String
+  category String // "primary" | "exploring"
+}
+
+model ContactLink {
+  id      String @id @default(cuid())
+  order   Int    @default(0)
+  label   String
+  href    String
+  variant String // "outline" | "filled"
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
