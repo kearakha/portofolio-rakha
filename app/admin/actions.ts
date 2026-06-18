@@ -178,7 +178,7 @@ export async function toggleSmallProjectActive(id: string, isActive: boolean) {
 
 export async function moveSmallProject(id: string, direction: "up" | "down") {
   const all = await prisma.smallProject.findMany({ orderBy: { order: "asc" } });
-  const idx = all.findIndex((p) => p.id === id);
+  const idx = all.findIndex((p: { id: string }) => p.id === id);
   const swapIdx = direction === "up" ? idx - 1 : idx + 1;
   if (swapIdx < 0 || swapIdx >= all.length) return;
   await prisma.$transaction([
