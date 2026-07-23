@@ -20,6 +20,11 @@ export const translations = {
     marquee: {
       label: "TECH STACK",
     },
+    statement: {
+      label: "Approach",
+      text: "Turning ideas into systems that work — clean, measurable, and built to last at faculty scale.",
+      side: "Precision. Clarity.\nFlow. Execution.",
+    },
     selectedWork: {
       sectionLabel: "Selected Work",
       caseStudyLabel: "Reach out for full case study",
@@ -129,6 +134,11 @@ export const translations = {
     },
     marquee: {
       label: "TEKNOLOGI",
+    },
+    statement: {
+      label: "Pendekatan",
+      text: "Mengubah ide menjadi sistem yang bekerja — rapi, terukur, dan tahan lama di skala fakultas.",
+      side: "Presisi. Kejelasan.\nAlur. Eksekusi.",
     },
     selectedWork: {
       sectionLabel: "Karya Pilihan",
