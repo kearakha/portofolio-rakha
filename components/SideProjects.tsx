@@ -1,8 +1,11 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLang } from "@/context/LanguageContext";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type SmallProjectItem = {
   id: string;
@@ -110,6 +113,27 @@ export default function SideProjects({ items }: Props) {
     };
   }, []);
 
+  useEffect(() => {
+    const cards =
+      trackRef.current?.querySelectorAll<HTMLElement>(".project-card");
+    if (!cards || cards.length === 0) return;
+
+    const ctx = gsap.context(() => {
+      gsap.set(cards, { opacity: 0, y: 20 });
+      cards.forEach((card, i) => {
+        gsap.to(card, {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          delay: i * 0.05,
+          scrollTrigger: { trigger: card, start: "top 90%", once: true },
+        });
+      });
+    });
+
+    return () => ctx.revert();
+  }, [items]);
+
   return (
     <section id="side-projects" className="py-16">
       {/* Header */}
@@ -133,7 +157,7 @@ export default function SideProjects({ items }: Props) {
         onMouseUp={onMouseUp}
         onMouseLeave={onMouseUp}
       >
-        {items.map((project, i) => {
+        {items.map((project) => {
           const desc = lang === "en" ? project.descEn : project.descId;
           const hasLink = project.href !== "#";
           const badge =
@@ -141,19 +165,10 @@ export default function SideProjects({ items }: Props) {
               ? "Sedang berjalan"
               : project.badge;
           return (
-            <motion.div
+            <div
               key={project.id}
-              className="shrink-0 bg-white rounded-2xl border border-gray-200 flex flex-col card-lift shadow-[0_4px_24px_rgba(0,0,0,0.06)]"
+              className="project-card shrink-0 bg-white rounded-2xl border border-gray-200 flex flex-col card-lift shadow-[0_4px_24px_rgba(0,0,0,0.06)]"
               style={{ width: "clamp(280px, 38vw, 500px)", height: 640 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              initial={{ opacity: 0, y: 20 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-              whileHover={{
-                scale: 1.03,
-                y: -6,
-                transition: { duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] },
-              }}
             >
               {/* Top */}
               <div className="p-6 pb-0">
@@ -222,7 +237,7 @@ export default function SideProjects({ items }: Props) {
                   )}
                 </div>
               </div>
-            </motion.div>
+            </div>
           );
         })}
       </div>
