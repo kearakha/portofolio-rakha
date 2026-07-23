@@ -25,6 +25,46 @@ export const translations = {
       text: "Turning ideas into systems that work — clean, measurable, and built to last at faculty scale.",
       side: "Precision. Clarity.\nFlow. Execution.",
     },
+    whatIDo: {
+      headingBefore: "What",
+      headingOutline: "I",
+      headingAfter: "Do",
+      intro:
+        "Backend engineer moonlighting as frontend & data — building academic systems from database to dashboard.",
+      categories: [
+        {
+          label: "Backend",
+          items: [
+            "Laravel Development",
+            "REST API Design",
+            "Multi-tenant Systems",
+            "Database Architecture",
+          ],
+        },
+        {
+          label: "Frontend & Web",
+          items: [
+            "Next.js",
+            "TypeScript",
+            "UI Integration",
+            "Responsive Layouts",
+          ],
+        },
+        {
+          label: "Data & ML",
+          items: [
+            "Python",
+            "NLP Preprocessing",
+            "Classification Models",
+            "Data Pipelines",
+          ],
+        },
+        {
+          label: "Tools & Practices",
+          items: ["Docker", "Git Workflows", "Code Review", "Team Leadership"],
+        },
+      ],
+    },
     selectedWork: {
       sectionLabel: "Selected Work",
       caseStudyLabel: "Reach out for full case study",
@@ -139,6 +179,46 @@ export const translations = {
       label: "Pendekatan",
       text: "Mengubah ide menjadi sistem yang bekerja — rapi, terukur, dan tahan lama di skala fakultas.",
       side: "Presisi. Kejelasan.\nAlur. Eksekusi.",
+    },
+    whatIDo: {
+      headingBefore: "Yang",
+      headingOutline: "Saya",
+      headingAfter: "Kerjakan",
+      intro:
+        "Backend engineer merangkap frontend & data — membangun sistem akademik dari database sampai dashboard.",
+      categories: [
+        {
+          label: "Backend",
+          items: [
+            "Laravel Development",
+            "REST API Design",
+            "Sistem Multi-tenant",
+            "Arsitektur Database",
+          ],
+        },
+        {
+          label: "Frontend & Web",
+          items: ["Next.js", "TypeScript", "Integrasi UI", "Layout Responsif"],
+        },
+        {
+          label: "Data & ML",
+          items: [
+            "Python",
+            "NLP Preprocessing",
+            "Model Klasifikasi",
+            "Data Pipeline",
+          ],
+        },
+        {
+          label: "Tools & Practices",
+          items: [
+            "Docker",
+            "Alur Kerja Git",
+            "Code Review",
+            "Kepemimpinan Tim",
+          ],
+        },
+      ],
     },
     selectedWork: {
       sectionLabel: "Karya Pilihan",
