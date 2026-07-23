@@ -1,7 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLang } from "@/context/LanguageContext";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type EducationItem = {
   id: string;
@@ -26,6 +30,27 @@ const LOGO_MAP: Record<string, string> = {
 
 export default function Education({ items }: Props) {
   const { t, lang } = useLang();
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const rows = listRef.current?.querySelectorAll<HTMLElement>(".edu-item");
+    if (!rows || rows.length === 0) return;
+
+    const ctx = gsap.context(() => {
+      gsap.set(rows, { opacity: 0, y: 20 });
+      rows.forEach((row, i) => {
+        gsap.to(row, {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          delay: i * 0.08,
+          scrollTrigger: { trigger: row, start: "top 90%", once: true },
+        });
+      });
+    });
+
+    return () => ctx.revert();
+  }, [items]);
 
   return (
     <section id="education" className="py-16 px-8 md:px-16 lg:px-24">
@@ -33,7 +58,7 @@ export default function Education({ items }: Props) {
         {t.education.sectionLabel}
       </h2>
 
-      <div className="relative">
+      <div ref={listRef} className="relative">
         {/* vertical timeline line */}
         <div className="absolute left-[27px] top-8 bottom-8 w-px bg-gray-200" />
 
@@ -45,13 +70,9 @@ export default function Education({ items }: Props) {
               ? edu.period.replace(/\bPresent\b/g, "Sekarang")
               : edu.period;
           return (
-            <motion.div
+            <div
               key={edu.id}
-              className={`relative pl-20 ${i > 0 ? "border-t border-gray-200" : ""}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
+              className={`edu-item relative pl-20 ${i > 0 ? "border-t border-gray-200" : ""}`}
             >
               {/* timeline bullet */}
               <span className="absolute left-5.25 top-13.5 w-3 h-3 rounded-full border-2 bg-white border-gray-300" />
@@ -104,7 +125,7 @@ export default function Education({ items }: Props) {
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </div>
           );
         })}
       </div>

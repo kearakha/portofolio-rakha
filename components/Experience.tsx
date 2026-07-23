@@ -1,7 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLang } from "@/context/LanguageContext";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type ExperienceItem = {
   id: string;
@@ -59,6 +63,27 @@ function isOngoing(period: string): boolean {
 
 export default function Experience({ items }: Props) {
   const { t, lang } = useLang();
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const rows = listRef.current?.querySelectorAll<HTMLElement>(".exp-item");
+    if (!rows || rows.length === 0) return;
+
+    const ctx = gsap.context(() => {
+      gsap.set(rows, { opacity: 0, y: 20 });
+      rows.forEach((row, i) => {
+        gsap.to(row, {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          delay: i * 0.08,
+          scrollTrigger: { trigger: row, start: "top 90%", once: true },
+        });
+      });
+    });
+
+    return () => ctx.revert();
+  }, [items]);
 
   return (
     <section id="experience" className="py-16 px-8 md:px-16 lg:px-24">
@@ -66,7 +91,7 @@ export default function Experience({ items }: Props) {
         {t.experience.sectionLabel}
       </h2>
 
-      <div className="relative">
+      <div ref={listRef} className="relative">
         {/* vertical timeline line */}
         <div className="absolute left-[27px] top-8 bottom-8 w-px bg-gray-200" />
 
@@ -74,13 +99,9 @@ export default function Experience({ items }: Props) {
           const desc = lang === "en" ? exp.descEn : exp.descId;
           const period = localizePeriod(exp.period, lang);
           return (
-            <motion.div
+            <div
               key={exp.id}
-              className={`relative pl-20 ${i > 0 ? "border-t border-gray-200" : ""}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
+              className={`exp-item relative pl-20 ${i > 0 ? "border-t border-gray-200" : ""}`}
             >
               {/* timeline bullet */}
               <span
@@ -141,7 +162,7 @@ export default function Experience({ items }: Props) {
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </div>
           );
         })}
       </div>
