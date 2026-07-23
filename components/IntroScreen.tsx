@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { GREETING_TEXTS } from "@/components/ui/rotating-text";
@@ -17,6 +16,20 @@ export default function IntroScreen({
   const greetRef = useRef<HTMLSpanElement>(null);
   const countRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!contentRef.current) return;
+    gsap.set(contentRef.current, { opacity: 0, y: 16 });
+    if (!introComplete) return;
+    gsap.to(contentRef.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.75,
+      delay: 0.25,
+      ease: "expo.out",
+    });
+  }, [introComplete]);
 
   useEffect(() => {
     const intro = introRef.current;
@@ -114,20 +127,7 @@ export default function IntroScreen({
         </div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{
-          opacity: introComplete ? 1 : 0,
-          y: introComplete ? 0 : 16,
-        }}
-        transition={{
-          duration: 0.75,
-          ease: [0.22, 1, 0.36, 1],
-          delay: introComplete ? 0.25 : 0,
-        }}
-      >
-        {children}
-      </motion.div>
+      <div ref={contentRef}>{children}</div>
     </>
   );
 }
