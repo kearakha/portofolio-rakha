@@ -1,5 +1,6 @@
 import Hero from "@/components/Hero";
 import Statement from "@/components/Statement";
+import Marquee from "@/components/Marquee";
 import SelectedWork from "@/components/SelectedWork";
 import SideProjects from "@/components/SideProjects";
 import Experience from "@/components/Experience";
@@ -21,6 +22,7 @@ export default async function Home() {
           marquee={data.marquee}
         />
         <Statement />
+        <Marquee marquee={data.marquee} />
         <SelectedWork items={data.selectedWork} />
         <SideProjects items={data.smallProjects} />
         <Experience items={data.experience} />
