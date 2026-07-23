@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import BottomNav from "@/components/BottomNav";
 import GradualBlur from "@/components/GradualBlur";
 import HeaderText from "@/components/HeaderText";
+import WowChrome from "@/components/WowChrome";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { IntroProvider } from "@/context/IntroContext";
 import { getSite } from "@/lib/queries";
@@ -25,6 +26,7 @@ export default async function SiteLayout({
   return (
     <LanguageProvider>
       <IntroProvider>
+        <WowChrome />
         <GradualBlur
           target="page"
           position="top"
