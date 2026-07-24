@@ -25,7 +25,11 @@ export default async function Home() {
         <Statement />
         <Marquee marquee={data.marquee} />
         <WhatIDo />
-        <SelectedCases />
+        <SelectedCases
+          items={data.projects.filter((p) =>
+            p.sections.includes("selected-cases"),
+          )}
+        />
         <FocusAreasStack />
         <Experience items={data.experience} />
         <Education items={data.education} />

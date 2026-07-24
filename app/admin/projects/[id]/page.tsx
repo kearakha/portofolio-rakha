@@ -1,16 +1,21 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { updateSmallProject } from "@/app/admin/actions";
+import { updateProject } from "@/app/admin/actions";
 import { s } from "@/app/admin/ui";
 import Link from "next/link";
 
-export default async function EditSideProject({
+const SECTIONS = [
+  { value: "selected-cases", label: "Selected Cases" },
+  { value: "side-projects", label: "Side Projects" },
+];
+
+export default async function EditProject({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const p = await prisma.smallProject.findUnique({ where: { id } });
+  const p = await prisma.project.findUnique({ where: { id } });
   if (!p) notFound();
 
   return (
@@ -24,7 +29,7 @@ export default async function EditSideProject({
         }}
       >
         <Link
-          href="/admin/side-projects"
+          href="/admin/projects"
           style={{
             fontFamily: "var(--font-inter)",
             fontSize: 13,
@@ -32,18 +37,22 @@ export default async function EditSideProject({
             textDecoration: "none",
           }}
         >
-          ← Side Projects
+          ← Projects
         </Link>
         <h1 style={{ ...s.h1, marginBottom: 0 }}>Edit</h1>
       </div>
-      <form action={updateSmallProject.bind(null, p.id)}>
+      <form action={updateProject.bind(null, p.id)}>
         <div style={s.grid2}>
           {(
             [
               ["title", "Title", p.title],
+              ["category", "Category", p.category],
               ["year", "Year", p.year],
               ["href", "URL", p.href],
-              ["badge", "Badge (e.g. ongoing, or leave empty)", p.badge ?? ""],
+              ["badge", "Badge", p.badge ?? ""],
+              ["image", "Image URL", p.image ?? ""],
+              ["initials", "Initials (placeholder)", p.initials ?? ""],
+              ["bg", "Placeholder BG color", p.bg ?? ""],
             ] as [string, string, string][]
           ).map(([n, l, v]) => (
             <div key={n} style={s.field}>
@@ -51,13 +60,35 @@ export default async function EditSideProject({
               <input name={n} defaultValue={v} style={s.input} />
             </div>
           ))}
-          <div style={s.field}>
-            <label style={s.label}>Tags (comma-separated)</label>
-            <input
-              name="tags"
-              defaultValue={p.tags.join(", ")}
-              style={s.input}
-            />
+        </div>
+        <div style={s.field}>
+          <label style={s.label}>Tags (comma-separated)</label>
+          <input name="tags" defaultValue={p.tags.join(", ")} style={s.input} />
+        </div>
+        <div style={s.field}>
+          <label style={s.label}>Sections (where this shows up)</label>
+          <div style={{ display: "flex", gap: 16 }}>
+            {SECTIONS.map((sec) => (
+              <label
+                key={sec.value}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontFamily: "var(--font-inter)",
+                  fontSize: 13,
+                  color: "var(--foreground)",
+                }}
+              >
+                <input
+                  type="checkbox"
+                  name="sections"
+                  value={sec.value}
+                  defaultChecked={p.sections.includes(sec.value)}
+                />
+                {sec.label}
+              </label>
+            ))}
           </div>
         </div>
         <div style={s.grid2}>

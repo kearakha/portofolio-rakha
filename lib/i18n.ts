@@ -69,19 +69,6 @@ export const translations = {
       subtitle: "Faculty-scale systems & side experiments.",
       filters: {
         all: "All",
-        academic: "Academic",
-        ml: "ML",
-        tooling: "Tooling",
-      },
-      titles: {
-        fikTa: "FIK Apps + Sistem TA",
-        ews: "Early Warning System",
-        sti: "STI Apps",
-        ewsProto: "EWS Prototype",
-        fnc: "Fake News Classifier",
-        nlp: "NLP Preprocessing Kit",
-        api: "API Wrapper FIK",
-        abs: "Absensi Automation",
       },
     },
     focusAreas: {
@@ -260,19 +247,6 @@ export const translations = {
       subtitle: "Sistem skala fakultas & eksperimen sampingan.",
       filters: {
         all: "Semua",
-        academic: "Akademik",
-        ml: "ML",
-        tooling: "Tooling",
-      },
-      titles: {
-        fikTa: "FIK Apps + Sistem TA",
-        ews: "Early Warning System",
-        sti: "STI Apps",
-        ewsProto: "EWS Prototype",
-        fnc: "Fake News Classifier",
-        nlp: "NLP Preprocessing Kit",
-        api: "API Wrapper FIK",
-        abs: "Absensi Automation",
       },
     },
     focusAreas: {

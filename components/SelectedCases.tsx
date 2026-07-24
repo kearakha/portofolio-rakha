@@ -7,90 +7,47 @@ import { useLang } from "@/context/LanguageContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type Category = "academic" | "ml" | "tooling";
-
 type Case = {
   id: string;
-  category: Category;
+  title: string;
+  category: string;
   year: string;
   image: string | null;
   bg: string;
   initials: string;
 };
 
-const CASES: Case[] = [
-  {
-    id: "fikTa",
-    category: "academic",
-    year: "2023→",
-    image: "/images/projects/fik-ta.png",
-    bg: "#e9e9e9",
-    initials: "",
-  },
-  {
-    id: "ews",
-    category: "academic",
-    year: "2023→",
-    image: "/images/projects/ews.png",
-    bg: "#e9e9e9",
-    initials: "",
-  },
-  {
-    id: "sti",
-    category: "academic",
-    year: "2023",
-    image: null,
-    bg: "#1c1c1c",
-    initials: "STI",
-  },
-  {
-    id: "ewsProto",
-    category: "academic",
-    year: "2023",
-    image: null,
-    bg: "#201f1f",
-    initials: "EWS-P",
-  },
-  {
-    id: "fnc",
-    category: "ml",
-    year: "2024",
-    image: null,
-    bg: "#181818",
-    initials: "FNC",
-  },
-  {
-    id: "nlp",
-    category: "ml",
-    year: "2024",
-    image: null,
-    bg: "#1c1c1c",
-    initials: "NLP",
-  },
-  {
-    id: "api",
-    category: "tooling",
-    year: "2024",
-    image: null,
-    bg: "#201f1f",
-    initials: "API",
-  },
-  {
-    id: "abs",
-    category: "tooling",
-    year: "2023",
-    image: null,
-    bg: "#181818",
-    initials: "ABS",
-  },
-];
+type Props = {
+  items: {
+    id: string;
+    title: string;
+    category: string;
+    year: string;
+    image: string | null;
+    bg: string | null;
+    initials: string | null;
+  }[];
+};
 
-const FILTERS: (Category | "all")[] = ["all", "academic", "ml", "tooling"];
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-export default function SelectedCases() {
+export default function SelectedCases({ items }: Props) {
   const { t } = useLang();
   const sectionRef = useRef<HTMLElement>(null);
-  const [filter, setFilter] = useState<Category | "all">("all");
+  const [filter, setFilter] = useState<string>("all");
+
+  const CASES: Case[] = items.map((c) => ({
+    id: c.id,
+    title: c.title,
+    category: c.category || "uncategorized",
+    year: c.year,
+    image: c.image,
+    bg: c.bg || "#1c1c1c",
+    initials: c.initials || "",
+  }));
+
+  const categories = Array.from(new Set(CASES.map((c) => c.category)));
+  const FILTERS = ["all", ...categories];
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -124,30 +81,13 @@ export default function SelectedCases() {
             scrollTrigger: { trigger: frame, start: "top 85%" },
           },
         );
-        const img = frame.querySelector<HTMLElement>("[data-img-parallax]");
-        if (img) {
-          gsap.fromTo(
-            img,
-            { yPercent: -8 },
-            {
-              yPercent: 8,
-              ease: "none",
-              scrollTrigger: {
-                trigger: frame,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true,
-              },
-            },
-          );
-        }
       });
     }, section);
 
     return () => ctx.revert();
   }, [t]);
 
-  const filterCount = (f: Category | "all") =>
+  const filterCount = (f: string) =>
     f === "all" ? CASES.length : CASES.filter((c) => c.category === f).length;
 
   return (
@@ -181,7 +121,8 @@ export default function SelectedCases() {
                     : "bg-transparent text-gray-700 border-gray-300"
                 }`}
               >
-                {t.selectedCases.filters[f]} ({filterCount(f)})
+                {f === "all" ? t.selectedCases.filters.all : capitalize(f)} (
+                {filterCount(f)})
               </button>
             ))}
           </div>
@@ -195,24 +136,19 @@ export default function SelectedCases() {
                   data-frame
                   data-cursor
                   className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-[0_20px_50px_-26px_rgba(0,0,0,0.25)] flex items-center justify-center"
-                  style={{ background: c.bg }}
+                  style={{ background: c.image ? "#ffffff" : c.bg }}
                 >
                   {c.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={c.image}
-                      alt={
-                        t.selectedCases.titles[
-                          c.id as keyof typeof t.selectedCases.titles
-                        ]
-                      }
-                      data-img-parallax
-                      className="w-full h-[118%] object-cover"
+                      alt={c.title}
+                      className="w-full h-full object-contain"
                     />
                   ) : (
                     <>
                       <span className="absolute top-4 left-[18px] text-[11px] font-semibold tracking-[0.14em] uppercase text-gray-500">
-                        {t.selectedCases.filters[c.category]}
+                        {c.category}
                       </span>
                       <span className="text-[34px] font-extrabold tracking-[-0.02em] text-gray-600">
                         {c.initials}
@@ -222,11 +158,7 @@ export default function SelectedCases() {
                 </div>
                 <div className="mt-4 flex items-baseline justify-between gap-3">
                   <span className="text-[15px] font-bold tracking-[-0.01em] text-gray-900">
-                    {
-                      t.selectedCases.titles[
-                        c.id as keyof typeof t.selectedCases.titles
-                      ]
-                    }
+                    {c.title}
                   </span>
                   <span className="text-xs font-semibold text-gray-400">
                     {c.year}

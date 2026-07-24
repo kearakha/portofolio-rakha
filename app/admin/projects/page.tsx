@@ -1,21 +1,24 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import {
-  createSmallProject,
-  deleteSmallProject,
-  moveSmallProject,
-  toggleSmallProjectActive,
+  createProject,
+  deleteProject,
+  moveProject,
+  toggleProjectActive,
 } from "@/app/admin/actions";
 import { s } from "@/app/admin/ui";
 
-export default async function SideProjectsPage() {
-  const items = await prisma.smallProject.findMany({
-    orderBy: { order: "asc" },
-  });
+const SECTIONS = [
+  { value: "selected-cases", label: "Selected Cases" },
+  { value: "side-projects", label: "Side Projects" },
+];
+
+export default async function ProjectsPage() {
+  const items = await prisma.project.findMany({ orderBy: { order: "asc" } });
 
   return (
     <div>
-      <h1 style={s.h1}>Side Projects</h1>
+      <h1 style={s.h1}>Projects</h1>
 
       {items.map((p, i) => (
         <div
@@ -78,7 +81,18 @@ export default async function SideProjectsPage() {
                   marginTop: 2,
                 }}
               >
-                {p.tags.join(", ")} · {p.year}
+                {p.category || "no category"} · {p.year} ·{" "}
+                {p.sections.length ? p.sections.join(", ") : "no section"}
+              </p>
+              <p
+                style={{
+                  fontFamily: "var(--font-inter)",
+                  fontSize: 12,
+                  color: "var(--muted)",
+                  marginTop: 2,
+                }}
+              >
+                {p.tags.join(", ")}
               </p>
             </div>
             <div
@@ -90,7 +104,7 @@ export default async function SideProjectsPage() {
               }}
             >
               <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                <form action={moveSmallProject.bind(null, p.id, "up")}>
+                <form action={moveProject.bind(null, p.id, "up")}>
                   <button
                     type="submit"
                     disabled={i === 0}
@@ -109,7 +123,7 @@ export default async function SideProjectsPage() {
                     ↑
                   </button>
                 </form>
-                <form action={moveSmallProject.bind(null, p.id, "down")}>
+                <form action={moveProject.bind(null, p.id, "down")}>
                   <button
                     type="submit"
                     disabled={i === items.length - 1}
@@ -132,9 +146,7 @@ export default async function SideProjectsPage() {
                   </button>
                 </form>
               </div>
-              <form
-                action={toggleSmallProjectActive.bind(null, p.id, !p.isActive)}
-              >
+              <form action={toggleProjectActive.bind(null, p.id, !p.isActive)}>
                 <button
                   type="submit"
                   style={{
@@ -153,10 +165,10 @@ export default async function SideProjectsPage() {
                   {p.isActive ? "Active" : "Inactive"}
                 </button>
               </form>
-              <Link href={`/admin/side-projects/${p.id}`} style={s.btnOutline}>
+              <Link href={`/admin/projects/${p.id}`} style={s.btnOutline}>
                 Edit
               </Link>
-              <form action={deleteSmallProject.bind(null, p.id)}>
+              <form action={deleteProject.bind(null, p.id)}>
                 <button type="submit" style={s.btnDanger}>
                   Delete
                 </button>
@@ -178,22 +190,47 @@ export default async function SideProjectsPage() {
       >
         Add New
       </h2>
-      <form action={createSmallProject}>
+      <form action={createProject}>
         <div style={s.grid2}>
           {[
             ["title", "Title"],
+            ["category", "Category (free text, e.g. academic, ml, tooling)"],
             ["year", "Year"],
             ["href", "URL (or #)"],
             ["badge", "Badge (e.g. ongoing, or leave empty)"],
+            ["image", "Image URL (optional)"],
+            ["initials", "Initials (placeholder, if no image)"],
+            ["bg", "Placeholder BG color (hex, if no image)"],
           ].map(([n, l]) => (
             <div key={n} style={s.field}>
               <label style={s.label}>{l}</label>
               <input name={n} style={s.input} />
             </div>
           ))}
-          <div style={s.field}>
-            <label style={s.label}>Tags (comma-separated)</label>
-            <input name="tags" style={s.input} />
+        </div>
+        <div style={s.field}>
+          <label style={s.label}>Tags (comma-separated)</label>
+          <input name="tags" style={s.input} />
+        </div>
+        <div style={s.field}>
+          <label style={s.label}>Sections (where this shows up)</label>
+          <div style={{ display: "flex", gap: 16 }}>
+            {SECTIONS.map((sec) => (
+              <label
+                key={sec.value}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontFamily: "var(--font-inter)",
+                  fontSize: 13,
+                  color: "var(--foreground)",
+                }}
+              >
+                <input type="checkbox" name="sections" value={sec.value} />
+                {sec.label}
+              </label>
+            ))}
           </div>
         </div>
         <div style={s.grid2}>

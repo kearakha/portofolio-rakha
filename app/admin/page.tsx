@@ -13,14 +13,9 @@ const SECTIONS = [
     desc: "Work & research timeline",
   },
   {
-    href: "/admin/selected-work",
-    label: "Selected Work",
-    desc: "Main project showcase",
-  },
-  {
-    href: "/admin/side-projects",
-    label: "Side Projects",
-    desc: "Small projects & prototypes",
+    href: "/admin/projects",
+    label: "Projects",
+    desc: "All projects — tag which sections they show up in",
   },
   { href: "/admin/education", label: "Education", desc: "Academic history" },
   {
@@ -31,19 +26,16 @@ const SECTIONS = [
 ];
 
 export default async function AdminDashboard() {
-  const [expCount, workCount, projCount, eduCount, skillCount] =
-    await Promise.all([
-      prisma.experience.count(),
-      prisma.selectedWork.count(),
-      prisma.smallProject.count(),
-      prisma.education.count(),
-      prisma.skill.count(),
-    ]);
+  const [expCount, projCount, eduCount, skillCount] = await Promise.all([
+    prisma.experience.count(),
+    prisma.project.count(),
+    prisma.education.count(),
+    prisma.skill.count(),
+  ]);
 
   const counts: Record<string, number> = {
     "/admin/experience": expCount,
-    "/admin/selected-work": workCount,
-    "/admin/side-projects": projCount,
+    "/admin/projects": projCount,
     "/admin/education": eduCount,
     "/admin/skills": skillCount,
   };

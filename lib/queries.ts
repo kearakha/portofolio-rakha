@@ -73,12 +73,8 @@ export const getFooter = () => getSingleton<FooterData>("footer");
 // ---- Lists (ordered) ----
 export const getExperience = () =>
   prisma.experience.findMany({ orderBy: { order: "asc" } });
-export const getSelectedWork = () =>
-  prisma.selectedWork.findMany({ orderBy: { order: "asc" } });
 export const getProjects = () =>
-  prisma.project.findMany({ orderBy: { order: "asc" } });
-export const getSmallProjects = () =>
-  prisma.smallProject.findMany({
+  prisma.project.findMany({
     where: { isActive: true },
     orderBy: { order: "asc" },
   });
@@ -106,9 +102,7 @@ export async function getPortfolio() {
     marquee,
     footer,
     experience,
-    selectedWork,
     projects,
-    smallProjects,
     education,
     contactLinks,
     skills,
@@ -121,9 +115,7 @@ export async function getPortfolio() {
     getMarquee(),
     getFooter(),
     getExperience(),
-    getSelectedWork(),
     getProjects(),
-    getSmallProjects(),
     getEducation(),
     getContactLinks(),
     getSkills(),
@@ -138,9 +130,7 @@ export async function getPortfolio() {
     marquee,
     footer,
     experience,
-    selectedWork,
     projects,
-    smallProjects,
     education,
     contactLinks,
     skills,
