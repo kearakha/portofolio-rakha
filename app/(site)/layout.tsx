@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import BottomNav from "@/components/BottomNav";
 import GradualBlur from "@/components/GradualBlur";
 import HeaderText from "@/components/HeaderText";
 import WowChrome from "@/components/WowChrome";
@@ -21,8 +20,6 @@ export default async function SiteLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const site = await getSite();
-
   return (
     <LanguageProvider>
       <IntroProvider>
@@ -41,7 +38,6 @@ export default async function SiteLayout({
           <HeaderText />
         </div>
         {children}
-        <BottomNav cvLink={site?.cv ?? "#"} />
       </IntroProvider>
     </LanguageProvider>
   );
