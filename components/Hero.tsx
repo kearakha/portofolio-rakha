@@ -51,12 +51,6 @@ export default function Hero({ site, hero, about }: Props) {
       ? hero.available.en
       : hero.available.id
     : "";
-  const subtitle = hero
-    ? lang === "en"
-      ? hero.subtitle.en
-      : hero.subtitle.id
-    : "";
-
   const email = site?.email ?? "";
   const avatar = site?.avatar ?? "/images/avatar/foto-bengkod-kecil.png";
   const role = site?.role ?? "";
@@ -176,9 +170,6 @@ export default function Hero({ site, hero, about }: Props) {
         </h1>
 
         <div ref={fadeRef}>
-          <p className="mt-9 text-center text-[13px] font-semibold tracking-[0.2em] uppercase text-gray-500 leading-loose">
-            {subtitle}
-          </p>
           <p className="mt-8 mx-auto max-w-[480px] text-center text-base leading-relaxed text-gray-400">
             {body}
           </p>

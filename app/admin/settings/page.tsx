@@ -327,10 +327,6 @@ export default async function SettingsPage() {
                 en: fd.get("availableEn"),
                 id: fd.get("availableId"),
               },
-              subtitle: {
-                en: fd.get("subtitleEn"),
-                id: fd.get("subtitleId"),
-              },
               tagline: {
                 en: fd.get("taglineEn"),
                 id: fd.get("taglineId"),
@@ -365,8 +361,6 @@ export default async function SettingsPage() {
               ],
               ["availableEn", "Available (EN)", hero?.available.en],
               ["availableId", "Available (ID)", hero?.available.id],
-              ["subtitleEn", "Subtitle (EN)", hero?.subtitle.en],
-              ["subtitleId", "Subtitle (ID)", hero?.subtitle.id],
               ["taglineEn", "Tagline (EN)", hero?.tagline.en],
               ["taglineId", "Tagline (ID)", hero?.tagline.id],
               ["focusLabelEn", "Focus Label (EN)", hero?.focusLabel.en],

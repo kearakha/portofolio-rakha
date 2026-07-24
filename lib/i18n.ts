@@ -12,7 +12,6 @@ export const translations = {
     },
     hero: {
       available: "Available for opportunities",
-      subtitle: "Backend Developer · Semarang 🇮🇩",
       tagline: "Building systems that actually work.",
       blurb:
         "At Bengkel Koding (a selective student dev community at UDINUS), I own the Thesis domain in a multi-tenant academic system serving an entire faculty (98 models, 861 endpoints). I lead the Web Developer Division (19 devs) and taught Laravel to 30+ students. Spent a semester at UGM widening how I think about systems. Now looking for a backend or fullstack internship on a team building something real.",
@@ -204,7 +203,6 @@ export const translations = {
     },
     hero: {
       available: "Tersedia untuk peluang",
-      subtitle: "Backend Developer · Semarang 🇮🇩",
       tagline: "Membangun sistem yang benar-benar bekerja.",
       blurb:
         "Di Bengkel Koding (komunitas dev mahasiswa terpilih UDINUS), aku pegang domain Tugas Akhir di sistem akademik multi-tenant skala fakultas (98 model, 861 endpoint). Mimpin Web Developer Division (19 dev) dan ngajar Laravel ke 30+ mahasiswa. Sempat satu semester di UGM memperluas cara mikir tentang sistem. Sekarang nyari magang backend atau fullstack di tim yang bangun sesuatu yang nyata.",

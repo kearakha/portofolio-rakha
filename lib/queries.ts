@@ -23,7 +23,6 @@ export type HeroData = {
   focusActivities: { label: string; org: string }[];
   focusLabel: Localized;
   available: Localized;
-  subtitle: Localized;
   tagline: Localized;
   viewProjects: Localized;
   downloadCV: Localized;
