@@ -29,7 +29,7 @@ export default async function Home() {
         <FocusAreasStack />
         <Experience items={data.experience} />
         <Education items={data.education} />
-        <Footer site={data.site} marquee={data.marquee} footer={data.footer} />
+        <Footer site={data.site} footer={data.footer} />
       </main>
     </IntroScreen>
   );

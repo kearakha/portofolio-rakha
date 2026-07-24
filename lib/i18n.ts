@@ -188,8 +188,9 @@ export const translations = {
       ],
     },
     footer: {
-      byline: "All rights reserved.",
-      right: "All rights reserved.",
+      eyebrow: "Got a project?",
+      talkPrefix: "Let's",
+      talkAccent: "Talk",
     },
   },
   id: {
@@ -379,8 +380,9 @@ export const translations = {
       ],
     },
     footer: {
-      byline: "All rights reserved.",
-      right: "Hak cipta dilindungi.",
+      eyebrow: "Ada proyek?",
+      talkPrefix: "Ayo",
+      talkAccent: "Ngobrol",
     },
   },
 } as const;
