@@ -3,6 +3,7 @@ import Statement from "@/components/Statement";
 import Marquee from "@/components/Marquee";
 import WhatIDo from "@/components/WhatIDo";
 import SelectedCases from "@/components/SelectedCases";
+import FocusAreasStack from "@/components/FocusAreasStack";
 import Experience from "@/components/Experience";
 import Education from "@/components/Education";
 import Footer from "@/components/Footer";
@@ -25,6 +26,7 @@ export default async function Home() {
         <Marquee marquee={data.marquee} />
         <WhatIDo />
         <SelectedCases />
+        <FocusAreasStack />
         <Experience items={data.experience} />
         <Education items={data.education} />
         <Footer site={data.site} marquee={data.marquee} footer={data.footer} />

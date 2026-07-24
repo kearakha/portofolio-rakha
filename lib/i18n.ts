@@ -85,6 +85,22 @@ export const translations = {
         abs: "Absensi Automation",
       },
     },
+    focusAreas: {
+      label: "Focus",
+      heading: "Areas & Stack",
+      categories: [
+        { label: "Academic Systems", count: 4 },
+        { label: "Machine Learning", count: 2 },
+        { label: "Tooling & Automation", count: 2 },
+        { label: "Leadership", count: 1 },
+      ],
+      stack: [
+        ["Laravel", "MySQL", "REST API", "Multi-tenant"],
+        ["Next.js", "TypeScript", "Chart.js", "Responsive UI"],
+        ["Python", "XGBoost", "TF-IDF", "NLP"],
+        ["Docker", "Git", "PHP", "Mentoring"],
+      ],
+    },
     selectedWork: {
       sectionLabel: "Selected Work",
       caseStudyLabel: "Reach out for full case study",
@@ -259,6 +275,22 @@ export const translations = {
         api: "API Wrapper FIK",
         abs: "Absensi Automation",
       },
+    },
+    focusAreas: {
+      label: "Fokus",
+      heading: "Area & Stack",
+      categories: [
+        { label: "Sistem Akademik", count: 4 },
+        { label: "Machine Learning", count: 2 },
+        { label: "Tooling & Otomasi", count: 2 },
+        { label: "Kepemimpinan", count: 1 },
+      ],
+      stack: [
+        ["Laravel", "MySQL", "REST API", "Multi-tenant"],
+        ["Next.js", "TypeScript", "Chart.js", "Responsive UI"],
+        ["Python", "XGBoost", "TF-IDF", "NLP"],
+        ["Docker", "Git", "PHP", "Mentoring"],
+      ],
     },
     selectedWork: {
       sectionLabel: "Karya Pilihan",
