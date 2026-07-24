@@ -28,6 +28,7 @@ export default function IntroScreen({
       duration: 0.75,
       delay: 0.25,
       ease: "expo.out",
+      clearProps: "transform",
     });
   }, [introComplete]);
 
