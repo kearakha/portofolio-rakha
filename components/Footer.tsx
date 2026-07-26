@@ -1,119 +1,185 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLang } from "@/context/LanguageContext";
-import type { SiteData, MarqueeData, FooterData } from "@/lib/queries";
+import type { SiteData, FooterData } from "@/lib/queries";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type Props = {
   site: SiteData | null;
-  marquee: MarqueeData | null;
   footer: FooterData | null;
 };
 
-export default function Footer({ site, marquee, footer }: Props) {
-  const { lang } = useLang();
-  const textRef = useRef<HTMLHeadingElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+export default function Footer({ site, footer }: Props) {
+  const { lang, t } = useLang();
+  const sectionRef = useRef<HTMLElement>(null);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
 
-  const techList = marquee?.tech ?? [];
   const footerLeft = footer?.left ?? site?.name ?? "";
   const footerRight = footer?.right
     ? lang === "en"
       ? footer.right.en
       : footer.right.id
-    : "All rights reserved.";
-  const linkedin = site?.linkedin ?? "#";
+    : "";
   const email = site?.email ?? "";
   const github = site?.github ?? "#";
-  const cv = site?.cv ?? "#";
+  const linkedin = site?.linkedin ?? "#";
 
   useEffect(() => {
-    const fit = () => {
-      const el = textRef.current;
-      const container = containerRef.current;
-      if (!el || !container) return;
-      el.style.fontSize = "175px";
-      const ratio = container.offsetWidth / el.scrollWidth;
-      el.style.fontSize = `${175 * ratio}px`;
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const ctx = gsap.context(() => {
+      const els = section.querySelectorAll<HTMLElement>("[data-reveal]");
+      gsap.set(els, { opacity: 0, y: 28, filter: "blur(8px)" });
+      ScrollTrigger.batch(els, {
+        start: "top 86%",
+        once: true,
+        onEnter: (batch) =>
+          gsap.to(batch, {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.85,
+            stagger: 0.1,
+            ease: "expo.out",
+          }),
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, [t]);
+
+  useEffect(() => {
+    const btn = ctaRef.current;
+    if (!btn) return;
+
+    const xTo = gsap.quickTo(btn, "x", { duration: 0.5, ease: "power3" });
+    const yTo = gsap.quickTo(btn, "y", { duration: 0.5, ease: "power3" });
+
+    const onMove = (e: MouseEvent) => {
+      const rect = btn.getBoundingClientRect();
+      xTo((e.clientX - rect.left - rect.width / 2) * 0.4);
+      yTo((e.clientY - rect.top - rect.height / 2) * 0.4);
     };
-    fit();
-    window.addEventListener("resize", fit);
-    return () => window.removeEventListener("resize", fit);
-  }, [footerLeft]);
+    const onLeave = () => {
+      xTo(0);
+      yTo(0);
+    };
+
+    btn.addEventListener("mousemove", onMove);
+    btn.addEventListener("mouseleave", onLeave);
+    return () => {
+      btn.removeEventListener("mousemove", onMove);
+      btn.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
 
   return (
-    <footer className="pt-0 pb-24 overflow-hidden">
-      {/* Tech stack marquee */}
-      <div className="overflow-hidden border-t border-b border-gray-100 py-4 mb-0">
-        <div
-          style={{
-            display: "flex",
-            width: "max-content",
-            animation: "marquee 30s linear infinite",
-            flexWrap: "nowrap",
-          }}
-        >
-          {[...techList, ...techList, ...techList].map((tech, i) => (
-            <span
-              key={i}
-              style={{ whiteSpace: "nowrap" }}
-              className="inline-flex items-center gap-2 mx-6 text-sm text-gray-400"
+    <footer
+      ref={sectionRef}
+      className="px-[7vw] pt-[160px] pb-12 overflow-hidden border-t border-gray-100"
+    >
+      <div className="max-w-[1280px] mx-auto">
+        <div className="relative text-center mb-[120px]">
+          <p
+            data-reveal
+            className="text-[13px] font-semibold tracking-[0.2em] uppercase text-gray-500 mb-5"
+          >
+            {t.footer.eyebrow}
+          </p>
+
+          <div className="relative inline-block">
+            <svg
+              width="140"
+              height="140"
+              viewBox="0 0 140 140"
+              aria-hidden="true"
+              className="absolute -left-[100px] top-1/2 -translate-y-1/2 opacity-35 hidden md:block"
             >
-              {tech}
-              <span className="text-gray-200 mx-2">·</span>
-            </span>
-          ))}
+              <path
+                d="M70 5 A65 65 0 0 0 70 135"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1"
+              />
+              <path
+                d="M50 25 A45 45 0 0 0 50 115"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1"
+              />
+            </svg>
+
+            <h2
+              data-reveal
+              className="font-extrabold tracking-[-0.03em] leading-[0.95] text-[clamp(48px,9vw,128px)] uppercase m-0"
+            >
+              {t.footer.talkPrefix}{" "}
+              <span className="text-[#9c9691]">{t.footer.talkAccent}</span>
+            </h2>
+
+            <svg
+              width="140"
+              height="140"
+              viewBox="0 0 140 140"
+              aria-hidden="true"
+              className="absolute -right-[100px] top-1/2 -translate-y-1/2 -scale-x-100 opacity-35 hidden md:block"
+            >
+              <path
+                d="M70 5 A65 65 0 0 0 70 135"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1"
+              />
+              <path
+                d="M50 25 A45 45 0 0 0 50 115"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1"
+              />
+            </svg>
+          </div>
+
+          <div
+            data-reveal
+            className="mt-11 flex items-center justify-center gap-[18px] flex-wrap"
+          >
+            <a
+              ref={ctaRef}
+              href={`mailto:${email}`}
+              data-cursor
+              className="inline-flex items-center gap-2.5 bg-gray-900 text-white text-[15px] font-semibold px-7 py-[15px] rounded-full will-change-transform"
+            >
+              {email} →
+            </a>
+            <a
+              href={github}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor
+              className="text-[15px] font-semibold text-gray-900 border-b-[1.5px] border-gray-300 pb-0.5 hover:text-gray-500 transition-colors"
+            >
+              GitHub ↗
+            </a>
+            <a
+              href={linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor
+              className="text-[15px] font-semibold text-gray-900 border-b-[1.5px] border-gray-300 pb-0.5 hover:text-gray-500 transition-colors"
+            >
+              LinkedIn ↗
+            </a>
+          </div>
         </div>
-      </div>
 
-      {/* Giant name */}
-      <div ref={containerRef} className="pt-16 pb-4 w-full">
-        <h2
-          ref={textRef}
-          className="font-semibold text-gray-900 leading-none select-none whitespace-nowrap"
-          style={{ letterSpacing: "-0.02em", display: "block" }}
-        >
-          {footerLeft}
-        </h2>
-      </div>
-
-      {/* Bottom bar */}
-      <div className="px-2 flex items-center justify-between">
-        <p className="text-xs text-gray-500">{footerRight}</p>
-        <div className="flex items-center gap-4 text-xs text-gray-500">
-          <a
-            href={linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-gray-800 transition-colors"
-          >
-            LinkedIn
-          </a>
-          <span>·</span>
-          <a
-            href={github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-gray-800 transition-colors"
-          >
-            GitHub
-          </a>
-          <span>·</span>
-          <a
-            href={cv}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-gray-800 transition-colors"
-          >
-            CV
-          </a>
-          <span>·</span>
-          <a
-            href={`mailto:${email}`}
-            className="hover:text-gray-800 transition-colors"
-          >
-            Email
-          </a>
+        <div className="flex items-center justify-between gap-4 flex-wrap border-t border-gray-200 pt-[26px]">
+          <span className="text-[13px] text-gray-400">{footerLeft}</span>
+          <span className="text-[13px] text-gray-400">{footerRight}</span>
         </div>
       </div>
     </footer>

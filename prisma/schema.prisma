@@ -30,42 +30,27 @@ model Experience {
   descId       String
 }
 
-model SelectedWork {
-  id           String   @id @default(cuid())
-  order        Int      @default(0)
-  title        String
-  partner      String
-  period       String
-  descEn       String
-  descId       String
-  tags         String[]
-  gradientFrom String
-  gradientTo   String
-  image        String?
-  href         String   @default("#")
-}
-
+// General project pool. `sections` tags which part of the site a project
+// shows up in (e.g. "selected-cases", "side-projects") so new sections can
+// be added later without a schema change.
 model Project {
-  id    String   @id @default(cuid())
-  order Int      @default(0)
-  badge String
-  title String
-  tags  String[]
-  href  String   @default("#")
-}
-
-model SmallProject {
   id       String   @id @default(cuid())
   order    Int      @default(0)
   title    String
   descEn   String
   descId   String
   tags     String[]
+  category String   @default("")
   year     String
   href     String   @default("#")
   badge    String?
   image    String?
+  initials String?
+  bg       String?
   isActive Boolean  @default(true)
+  sections String[] @default([])
+
+  @@map("SmallProject")
 }
 
 model Education {

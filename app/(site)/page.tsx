@@ -1,6 +1,8 @@
 import Hero from "@/components/Hero";
-import SelectedWork from "@/components/SelectedWork";
-import SideProjects from "@/components/SideProjects";
+import Statement from "@/components/Statement";
+import Marquee from "@/components/Marquee";
+import SelectedCases from "@/components/SelectedCases";
+import FocusAreasStack from "@/components/FocusAreasStack";
 import Experience from "@/components/Experience";
 import Education from "@/components/Education";
 import Footer from "@/components/Footer";
@@ -19,11 +21,17 @@ export default async function Home() {
           about={data.about}
           marquee={data.marquee}
         />
-        <SelectedWork items={data.selectedWork} />
-        <SideProjects items={data.smallProjects} />
+        <Statement />
+        <Marquee marquee={data.marquee} />
+        <SelectedCases
+          items={data.projects.filter((p) =>
+            p.sections.includes("selected-cases"),
+          )}
+        />
+        <FocusAreasStack />
         <Experience items={data.experience} />
         <Education items={data.education} />
-        <Footer site={data.site} marquee={data.marquee} footer={data.footer} />
+        <Footer site={data.site} footer={data.footer} />
       </main>
     </IntroScreen>
   );

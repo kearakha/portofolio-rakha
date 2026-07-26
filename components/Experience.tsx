@@ -1,7 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLang } from "@/context/LanguageContext";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type ExperienceItem = {
   id: string;
@@ -59,91 +63,128 @@ function isOngoing(period: string): boolean {
 
 export default function Experience({ items }: Props) {
   const { t, lang } = useLang();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const ctx = gsap.context(() => {
+      const rows = section.querySelectorAll<HTMLElement>("[data-reveal]");
+      gsap.set(rows, { opacity: 0, y: 28, filter: "blur(8px)" });
+      ScrollTrigger.batch(rows, {
+        start: "top 90%",
+        once: true,
+        onEnter: (batch) =>
+          gsap.to(batch, {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.85,
+            stagger: 0.1,
+            ease: "expo.out",
+          }),
+      });
+
+      const line = section.querySelector<HTMLElement>("[data-line-fill]");
+      const list = section.querySelector<HTMLElement>("[data-timeline]");
+      if (line && list) {
+        gsap.fromTo(
+          line,
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: list,
+              start: "top 70%",
+              end: "bottom 75%",
+              scrub: true,
+            },
+          },
+        );
+      }
+    }, section);
+
+    return () => ctx.revert();
+  }, [items, t]);
 
   return (
-    <section id="experience" className="py-16 px-8 md:px-16 lg:px-24">
-      <h2 className="text-4xl font-bold text-gray-900 mb-8">
-        {t.experience.sectionLabel}
-      </h2>
+    <section
+      id="experience"
+      ref={sectionRef}
+      className="px-[7vw] py-[140px] overflow-hidden"
+    >
+      <div className="max-w-[1000px] mx-auto">
+        <div className="relative mb-20">
+          <div className="absolute -top-[72px] -right-[10px] text-[210px] font-black tracking-[-0.05em] text-gray-100 pointer-events-none select-none leading-none">
+            02
+          </div>
+          <h2
+            data-reveal
+            className="relative text-[clamp(30px,4.4vw,56px)] font-extrabold tracking-[-0.03em] m-0"
+          >
+            {t.experience.sectionLabel}
+          </h2>
+        </div>
 
-      <div className="relative">
-        {/* vertical timeline line */}
-        <div className="absolute left-[27px] top-8 bottom-8 w-px bg-gray-200" />
+        <div data-timeline className="relative pl-10">
+          <div className="absolute left-[5px] top-2 bottom-2 w-0.5 bg-gray-200 overflow-hidden">
+            <div
+              data-line-fill
+              className="absolute inset-0 bg-gray-900 origin-top"
+              style={{ transform: "scaleY(0)" }}
+            />
+          </div>
 
-        {items.map((exp, i) => {
-          const desc = lang === "en" ? exp.descEn : exp.descId;
-          const period = localizePeriod(exp.period, lang);
-          return (
-            <motion.div
-              key={exp.id}
-              className={`relative pl-20 ${i > 0 ? "border-t border-gray-200" : ""}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-            >
-              {/* timeline bullet */}
-              <span
-                className={`absolute left-5.25 top-13.5 w-3 h-3 rounded-full border-2 ${
-                  isOngoing(exp.period)
-                    ? "bg-gray-900 border-gray-900"
-                    : "bg-white border-gray-300"
-                }`}
-              />
+          {items.map((exp, i) => {
+            const desc = lang === "en" ? exp.descEn : exp.descId;
+            const period = localizePeriod(exp.period, lang);
+            const ongoing = isOngoing(exp.period);
+            return (
+              <div
+                key={exp.id}
+                data-reveal
+                className={`relative pb-11 ${i > 0 ? "pt-8 border-t border-gray-100" : ""}`}
+              >
+                <span
+                  className={`absolute -left-10 top-1.5 w-3 h-3 rounded-full border-2 ${
+                    ongoing
+                      ? "bg-gray-900 border-gray-900"
+                      : "bg-white border-gray-300"
+                  }`}
+                />
 
-              <div className="py-8">
-                {/* Header: logo badge + name/role + period */}
-                <div className="grid grid-cols-[56px_1fr_auto] items-start gap-4 mb-5">
-                  {/* Logo */}
-                  {exp.logoImage ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={exp.logoImage}
-                      alt={exp.org}
-                      className="w-14 h-14 rounded-2xl object-cover bg-white shrink-0"
-                    />
-                  ) : (
-                    <div
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 text-white font-bold text-sm"
-                      style={{ background: exp.logoColor }}
-                    >
-                      {exp.logoInitials}
-                    </div>
-                  )}
-                  <div>
-                    <h3 className="text-base font-bold text-gray-900">
-                      {exp.org}
-                    </h3>
-                    <p className="text-sm text-gray-500 mt-0.5">{exp.role}</p>
-                    <p className="text-xs text-gray-400 mt-0.5">
-                      {exp.division}
-                    </p>
-                  </div>
-                  <span className="text-sm text-gray-600 whitespace-nowrap bg-gray-100 rounded-full px-3 py-1">
+                <div className="flex items-baseline justify-between gap-4 flex-wrap">
+                  <h3 className="text-xl font-bold tracking-[-0.01em]">
+                    {exp.role}
+                  </h3>
+                  <span className="text-[13px] font-semibold text-gray-700 bg-white border border-gray-200 rounded-full px-3 py-1">
                     {period}
                   </span>
                 </div>
+                <p className="mt-1 text-[15px] text-gray-500">
+                  {exp.org} · {exp.division}
+                </p>
 
-                {/* Description */}
-                <p className="text-sm text-gray-600 leading-relaxed mb-5">
+                <p className="mt-3.5 text-sm text-gray-600 leading-relaxed">
                   {desc}
                 </p>
 
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2">
+                <div className="mt-3.5 flex flex-wrap gap-1.5">
                   {exp.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs text-gray-600 bg-gray-100 rounded-full px-3 py-1"
+                      className="text-xs text-gray-700 bg-gray-100 rounded-full px-3 py-1"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
               </div>
-            </motion.div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );

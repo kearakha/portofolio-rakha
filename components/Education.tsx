@@ -1,7 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLang } from "@/context/LanguageContext";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type EducationItem = {
   id: string;
@@ -26,16 +30,51 @@ const LOGO_MAP: Record<string, string> = {
 
 export default function Education({ items }: Props) {
   const { t, lang } = useLang();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const ctx = gsap.context(() => {
+      const rows = section.querySelectorAll<HTMLElement>("[data-reveal]");
+      gsap.set(rows, { opacity: 0, y: 28, filter: "blur(8px)" });
+      ScrollTrigger.batch(rows, {
+        start: "top 90%",
+        once: true,
+        onEnter: (batch) =>
+          gsap.to(batch, {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.85,
+            stagger: 0.1,
+            ease: "expo.out",
+          }),
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, [items, t]);
 
   return (
-    <section id="education" className="py-16 px-8 md:px-16 lg:px-24">
-      <h2 className="text-4xl font-bold text-gray-900 mb-8">
-        {t.education.sectionLabel}
-      </h2>
-
-      <div className="relative">
-        {/* vertical timeline line */}
-        <div className="absolute left-[27px] top-8 bottom-8 w-px bg-gray-200" />
+    <section
+      id="education"
+      ref={sectionRef}
+      className="bg-[#fafafa] px-[7vw] py-[120px] overflow-hidden"
+    >
+      <div className="max-w-[1000px] mx-auto">
+        <div className="relative mb-14">
+          <div className="absolute -top-[72px] -left-[10px] text-[210px] font-black tracking-[-0.05em] text-gray-100 pointer-events-none select-none leading-none">
+            03
+          </div>
+          <h2
+            data-reveal
+            className="relative text-[clamp(30px,4.4vw,56px)] font-extrabold tracking-[-0.03em] m-0"
+          >
+            {t.education.sectionLabel}
+          </h2>
+        </div>
 
         {items.map((edu, i) => {
           const desc = lang === "en" ? edu.descEn : edu.descId;
@@ -45,66 +84,57 @@ export default function Education({ items }: Props) {
               ? edu.period.replace(/\bPresent\b/g, "Sekarang")
               : edu.period;
           return (
-            <motion.div
+            <div
               key={edu.id}
-              className={`relative pl-20 ${i > 0 ? "border-t border-gray-200" : ""}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
+              data-reveal
+              className={`grid grid-cols-[64px_1fr_auto] items-start gap-[22px] py-7 ${
+                i > 0 ? "border-t border-gray-200" : "border-t border-gray-200"
+              }`}
             >
-              {/* timeline bullet */}
-              <span className="absolute left-5.25 top-13.5 w-3 h-3 rounded-full border-2 bg-white border-gray-300" />
-
-              <div className="py-8">
-                {/* Header: logo + institution + period */}
-                <div className="grid grid-cols-[56px_1fr_auto] items-start gap-4 mb-5">
-                  {logoSrc ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={logoSrc}
-                      alt={edu.short}
-                      className="w-14 h-14 rounded-2xl object-contain bg-white shrink-0 border border-gray-100"
-                    />
-                  ) : (
-                    <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 bg-gray-100 text-gray-600 font-bold text-xs">
-                      {edu.short}
-                    </div>
-                  )}
-                  <div>
-                    <h3 className="text-base font-bold text-gray-900">
-                      {edu.institution}
-                    </h3>
-                    <p className="text-sm text-gray-500 mt-0.5">{edu.degree}</p>
-                    {edu.gpa && (
-                      <p className="text-xs text-gray-400 mt-0.5">
-                        GPA {edu.gpa}
-                      </p>
-                    )}
-                  </div>
-                  <span className="text-sm text-gray-600 whitespace-nowrap bg-gray-100 rounded-full px-3 py-1">
-                    {period}
-                  </span>
+              {logoSrc ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={logoSrc}
+                  alt={edu.short}
+                  className="w-16 h-16 rounded-2xl object-contain bg-white border border-gray-100 p-2"
+                />
+              ) : (
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-gray-100 text-gray-600 font-bold text-xs">
+                  {edu.short}
                 </div>
+              )}
 
-                {/* Description */}
-                <p className="text-sm text-gray-600 leading-relaxed mb-5">
+              <div>
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  <h3 className="text-xl font-bold tracking-[-0.01em]">
+                    {edu.institution}
+                  </h3>
+                  {edu.gpa && (
+                    <span className="text-xs font-bold text-gray-900 bg-[#eafaf0] border border-[#bfead0] rounded-full px-2.5 py-0.5">
+                      GPA {edu.gpa}
+                    </span>
+                  )}
+                </div>
+                <p className="mt-1 text-[15px] text-gray-500">{edu.degree}</p>
+                <p className="mt-3.5 text-sm leading-relaxed text-gray-500 max-w-[560px]">
                   {desc}
                 </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2">
+                <div className="mt-3.5 flex flex-wrap gap-1.5">
                   {edu.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs text-gray-600 bg-gray-100 rounded-full px-3 py-1"
+                      className="text-xs text-gray-600 bg-white border border-gray-200 rounded-full px-3 py-1"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
               </div>
-            </motion.div>
+
+              <span className="text-[13px] font-semibold text-gray-700 bg-white border border-gray-200 rounded-full px-3.5 py-1.5 whitespace-nowrap">
+                {period}
+              </span>
+            </div>
           );
         })}
       </div>

@@ -12,13 +12,87 @@ export const translations = {
     },
     hero: {
       available: "Available for opportunities",
-      subtitle: "Backend Developer · Semarang 🇮🇩",
       tagline: "Building systems that actually work.",
       blurb:
         "At Bengkel Koding (a selective student dev community at UDINUS), I own the Thesis domain in a multi-tenant academic system serving an entire faculty (98 models, 861 endpoints). I lead the Web Developer Division (19 devs) and taught Laravel to 30+ students. Spent a semester at UGM widening how I think about systems. Now looking for a backend or fullstack internship on a team building something real.",
     },
     marquee: {
       label: "TECH STACK",
+    },
+    statement: {
+      label: "Approach",
+      text: "Turning ideas into systems that work — clean, measurable, and built to last at faculty scale.",
+      side: "Precision. Clarity.\nFlow. Execution.",
+    },
+    selectedCases: {
+      sectionLabel: "Selected Cases",
+      subtitle: "Faculty-scale systems & side experiments.",
+      filters: {
+        all: "All",
+      },
+      seeLabel: "See details",
+      visitLabel: "Visit",
+    },
+    projectDetail: {
+      back: "Back to work",
+      visit: "Visit live site",
+      techStack: "Tech Stack",
+      notFound: "Project not found",
+    },
+    focusAreas: {
+      label: "Focus",
+      heading: "Areas & Stack",
+      intro:
+        "Backend engineer moonlighting as frontend & data — building academic systems from database to dashboard.",
+      categories: [
+        { label: "Academic Systems", count: 4 },
+        { label: "Machine Learning", count: 2 },
+        { label: "Tooling & Automation", count: 2 },
+        { label: "Leadership", count: 1 },
+      ],
+      columns: [
+        {
+          label: "Backend",
+          items: [
+            "Laravel Development",
+            "REST API Design",
+            "Multi-tenant Systems",
+            "Database Architecture",
+            "MySQL",
+          ],
+        },
+        {
+          label: "Frontend & Web",
+          items: [
+            "Next.js",
+            "TypeScript",
+            "UI Integration",
+            "Responsive Layouts",
+            "Chart.js",
+          ],
+        },
+        {
+          label: "Data & ML",
+          items: [
+            "Python",
+            "NLP Preprocessing",
+            "Classification Models",
+            "Data Pipelines",
+            "XGBoost",
+            "TF-IDF",
+          ],
+        },
+        {
+          label: "Tools & Practices",
+          items: [
+            "Docker",
+            "Git Workflows",
+            "Code Review",
+            "Team Leadership",
+            "PHP",
+          ],
+        },
+      ],
     },
     selectedWork: {
       sectionLabel: "Selected Work",
@@ -107,8 +181,9 @@ export const translations = {
       ],
     },
     footer: {
-      byline: "All rights reserved.",
-      right: "All rights reserved.",
+      eyebrow: "Got a project?",
+      talkPrefix: "Let's",
+      talkAccent: "Talk",
     },
   },
   id: {
@@ -122,13 +197,87 @@ export const translations = {
     },
     hero: {
       available: "Tersedia untuk peluang",
-      subtitle: "Backend Developer · Semarang 🇮🇩",
       tagline: "Membangun sistem yang benar-benar bekerja.",
       blurb:
         "Di Bengkel Koding (komunitas dev mahasiswa terpilih UDINUS), aku pegang domain Tugas Akhir di sistem akademik multi-tenant skala fakultas (98 model, 861 endpoint). Mimpin Web Developer Division (19 dev) dan ngajar Laravel ke 30+ mahasiswa. Sempat satu semester di UGM memperluas cara mikir tentang sistem. Sekarang nyari magang backend atau fullstack di tim yang bangun sesuatu yang nyata.",
     },
     marquee: {
       label: "TEKNOLOGI",
+    },
+    statement: {
+      label: "Pendekatan",
+      text: "Mengubah ide menjadi sistem yang bekerja — rapi, terukur, dan tahan lama di skala fakultas.",
+      side: "Presisi. Kejelasan.\nAlur. Eksekusi.",
+    },
+    selectedCases: {
+      sectionLabel: "Karya Pilihan",
+      subtitle: "Sistem skala fakultas & eksperimen sampingan.",
+      filters: {
+        all: "Semua",
+      },
+      seeLabel: "Selengkapnya",
+      visitLabel: "Kunjungi",
+    },
+    projectDetail: {
+      back: "Kembali ke karya",
+      visit: "Kunjungi situs live",
+      techStack: "Tech Stack",
+      notFound: "Proyek tidak ditemukan",
+    },
+    focusAreas: {
+      label: "Fokus",
+      heading: "Area & Stack",
+      intro:
+        "Backend engineer merangkap frontend & data — membangun sistem akademik dari database sampai dashboard.",
+      categories: [
+        { label: "Sistem Akademik", count: 4 },
+        { label: "Machine Learning", count: 2 },
+        { label: "Tooling & Otomasi", count: 2 },
+        { label: "Kepemimpinan", count: 1 },
+      ],
+      columns: [
+        {
+          label: "Backend",
+          items: [
+            "Laravel Development",
+            "REST API Design",
+            "Sistem Multi-tenant",
+            "Arsitektur Database",
+            "MySQL",
+          ],
+        },
+        {
+          label: "Frontend & Web",
+          items: [
+            "Next.js",
+            "TypeScript",
+            "Integrasi UI",
+            "Layout Responsif",
+            "Chart.js",
+          ],
+        },
+        {
+          label: "Data & ML",
+          items: [
+            "Python",
+            "NLP Preprocessing",
+            "Model Klasifikasi",
+            "Data Pipeline",
+            "XGBoost",
+            "TF-IDF",
+          ],
+        },
+        {
+          label: "Tools & Practices",
+          items: [
+            "Docker",
+            "Alur Kerja Git",
+            "Code Review",
+            "Kepemimpinan Tim",
+            "PHP",
+          ],
+        },
+      ],
     },
     selectedWork: {
       sectionLabel: "Karya Pilihan",
@@ -217,8 +366,9 @@ export const translations = {
       ],
     },
     footer: {
-      byline: "All rights reserved.",
-      right: "Hak cipta dilindungi.",
+      eyebrow: "Ada proyek?",
+      talkPrefix: "Ayo",
+      talkAccent: "Ngobrol",
     },
   },
 } as const;

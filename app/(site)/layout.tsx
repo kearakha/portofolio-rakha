@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import BottomNav from "@/components/BottomNav";
 import GradualBlur from "@/components/GradualBlur";
-import HeaderText from "@/components/HeaderText";
+import WowChrome from "@/components/WowChrome";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { IntroProvider } from "@/context/IntroContext";
 import { getSite } from "@/lib/queries";
@@ -20,11 +19,10 @@ export default async function SiteLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const site = await getSite();
-
   return (
     <LanguageProvider>
       <IntroProvider>
+        <WowChrome />
         <GradualBlur
           target="page"
           position="top"
@@ -35,11 +33,7 @@ export default async function SiteLayout({
           opacity={1}
           zIndex={40}
         />
-        <div className="fixed top-0 left-0 right-0 z-200 flex justify-center items-center pt-12 pb-6 pointer-events-none">
-          <HeaderText />
-        </div>
         {children}
-        <BottomNav cvLink={site?.cv ?? "#"} />
       </IntroProvider>
     </LanguageProvider>
   );

@@ -69,66 +69,11 @@ export async function deleteExperience(id: string) {
   redirect("/admin/experience");
 }
 
-// ── Selected Work ────────────────────────────────────────────────────────────
+// ── Projects ─────────────────────────────────────────────────────────────────
 
-export async function createSelectedWork(formData: FormData) {
-  const count = await prisma.selectedWork.count();
-  await prisma.selectedWork.create({
-    data: {
-      order: count,
-      title: formData.get("title") as string,
-      partner: formData.get("partner") as string,
-      period: formData.get("period") as string,
-      descEn: formData.get("descEn") as string,
-      descId: formData.get("descId") as string,
-      tags: (formData.get("tags") as string)
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean),
-      gradientFrom: formData.get("gradientFrom") as string,
-      gradientTo: formData.get("gradientTo") as string,
-      image: (formData.get("image") as string) || null,
-      href: (formData.get("href") as string) || "#",
-    },
-  });
-  revalidatePath("/");
-  redirect("/admin/selected-work");
-}
-
-export async function updateSelectedWork(id: string, formData: FormData) {
-  await prisma.selectedWork.update({
-    where: { id },
-    data: {
-      title: formData.get("title") as string,
-      partner: formData.get("partner") as string,
-      period: formData.get("period") as string,
-      descEn: formData.get("descEn") as string,
-      descId: formData.get("descId") as string,
-      tags: (formData.get("tags") as string)
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean),
-      gradientFrom: formData.get("gradientFrom") as string,
-      gradientTo: formData.get("gradientTo") as string,
-      image: (formData.get("image") as string) || null,
-      href: (formData.get("href") as string) || "#",
-    },
-  });
-  revalidatePath("/");
-  redirect("/admin/selected-work");
-}
-
-export async function deleteSelectedWork(id: string) {
-  await prisma.selectedWork.delete({ where: { id } });
-  revalidatePath("/");
-  redirect("/admin/selected-work");
-}
-
-// ── Side Projects ────────────────────────────────────────────────────────────
-
-export async function createSmallProject(formData: FormData) {
-  const count = await prisma.smallProject.count();
-  await prisma.smallProject.create({
+export async function createProject(formData: FormData) {
+  const count = await prisma.project.count();
+  await prisma.project.create({
     data: {
       order: count,
       title: formData.get("title") as string,
@@ -138,18 +83,23 @@ export async function createSmallProject(formData: FormData) {
         .split(",")
         .map((t) => t.trim())
         .filter(Boolean),
-      year: formData.get("year") as string,
+      category: (formData.get("category") as string) || "",
+      year: (formData.get("year") as string) || "",
       href: (formData.get("href") as string) || "#",
       badge: (formData.get("badge") as string) || null,
+      image: (formData.get("image") as string) || null,
+      initials: (formData.get("initials") as string) || null,
+      bg: (formData.get("bg") as string) || null,
       isActive: true,
+      sections: formData.getAll("sections") as string[],
     },
   });
   revalidatePath("/");
-  redirect("/admin/side-projects");
+  redirect("/admin/projects");
 }
 
-export async function updateSmallProject(id: string, formData: FormData) {
-  await prisma.smallProject.update({
+export async function updateProject(id: string, formData: FormData) {
+  await prisma.project.update({
     where: { id },
     data: {
       title: formData.get("title") as string,
@@ -159,46 +109,51 @@ export async function updateSmallProject(id: string, formData: FormData) {
         .split(",")
         .map((t) => t.trim())
         .filter(Boolean),
-      year: formData.get("year") as string,
+      category: (formData.get("category") as string) || "",
+      year: (formData.get("year") as string) || "",
       href: (formData.get("href") as string) || "#",
       badge: (formData.get("badge") as string) || null,
+      image: (formData.get("image") as string) || null,
+      initials: (formData.get("initials") as string) || null,
+      bg: (formData.get("bg") as string) || null,
+      sections: formData.getAll("sections") as string[],
     },
   });
   revalidatePath("/");
-  redirect("/admin/side-projects");
+  redirect("/admin/projects");
 }
 
-export async function toggleSmallProjectActive(id: string, isActive: boolean) {
-  await prisma.smallProject.update({
+export async function toggleProjectActive(id: string, isActive: boolean) {
+  await prisma.project.update({
     where: { id },
     data: { isActive },
   });
   revalidatePath("/");
 }
 
-export async function moveSmallProject(id: string, direction: "up" | "down") {
-  const all = await prisma.smallProject.findMany({ orderBy: { order: "asc" } });
+export async function moveProject(id: string, direction: "up" | "down") {
+  const all = await prisma.project.findMany({ orderBy: { order: "asc" } });
   const idx = all.findIndex((p: { id: string }) => p.id === id);
   const swapIdx = direction === "up" ? idx - 1 : idx + 1;
   if (swapIdx < 0 || swapIdx >= all.length) return;
   await prisma.$transaction([
-    prisma.smallProject.update({
+    prisma.project.update({
       where: { id: all[idx].id },
       data: { order: all[swapIdx].order },
     }),
-    prisma.smallProject.update({
+    prisma.project.update({
       where: { id: all[swapIdx].id },
       data: { order: all[idx].order },
     }),
   ]);
   revalidatePath("/");
-  revalidatePath("/admin/side-projects");
+  revalidatePath("/admin/projects");
 }
 
-export async function deleteSmallProject(id: string) {
-  await prisma.smallProject.delete({ where: { id } });
+export async function deleteProject(id: string) {
+  await prisma.project.delete({ where: { id } });
   revalidatePath("/");
-  redirect("/admin/side-projects");
+  redirect("/admin/projects");
 }
 
 // ── Education ────────────────────────────────────────────────────────────────
