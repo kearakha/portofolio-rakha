@@ -39,6 +39,11 @@ export default function IntroScreen({
     const bar = barRef.current;
     if (!intro || !greet || !countEl || !bar) return;
 
+    if (introComplete) {
+      gsap.set(intro, { display: "none" });
+      return;
+    }
+
     if (lenisInstance) lenisInstance.stop();
     else document.documentElement.style.overflow = "hidden";
 
@@ -97,12 +102,13 @@ export default function IntroScreen({
     return () => {
       tl.kill();
     };
-  }, [setIntroComplete]);
+  }, [introComplete, setIntroComplete]);
 
   return (
     <>
       <div
         ref={introRef}
+        style={introComplete ? { display: "none" } : undefined}
         className="fixed inset-0 z-[999] flex items-center justify-center bg-white"
       >
         <div className="overflow-hidden px-[0.1em]">

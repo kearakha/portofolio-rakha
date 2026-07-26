@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
-import { setLenisInstance } from "@/lib/lenis";
+import { lenisInstance, setLenisInstance } from "@/lib/lenis";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,6 +13,23 @@ export default function WowChrome() {
   const ringRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+
+  // Lenis owns scrolling, so native hash-jump on navigation (e.g. /#work)
+  // gets overridden. Scroll to the hash target ourselves once it's mounted.
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+    const id = hash.slice(1);
+    const timer = setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el && lenisInstance) {
+        lenisInstance.resize();
+        lenisInstance.scrollTo(el, { immediate: true });
+      }
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [pathname]);
 
   useEffect(() => {
     const lenis = new Lenis({ duration: 1.15, smoothWheel: true });
