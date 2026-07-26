@@ -1,7 +1,6 @@
 import Hero from "@/components/Hero";
 import Statement from "@/components/Statement";
 import Marquee from "@/components/Marquee";
-import WhatIDo from "@/components/WhatIDo";
 import SelectedCases from "@/components/SelectedCases";
 import FocusAreasStack from "@/components/FocusAreasStack";
 import Experience from "@/components/Experience";
@@ -24,7 +23,6 @@ export default async function Home() {
         />
         <Statement />
         <Marquee marquee={data.marquee} />
-        <WhatIDo />
         <SelectedCases
           items={data.projects.filter((p) =>
             p.sections.includes("selected-cases"),

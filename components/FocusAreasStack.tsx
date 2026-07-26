@@ -47,11 +47,17 @@ export default function FocusAreasStack() {
         </p>
         <h2
           data-reveal
-          className="italic font-medium text-[clamp(40px,6vw,84px)] tracking-[-0.02em] mb-[70px]"
+          className="italic font-medium text-[clamp(40px,6vw,84px)] tracking-[-0.02em] mb-4"
           style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
         >
           {t.focusAreas.heading}
         </h2>
+        <p
+          data-reveal
+          className="max-w-[480px] text-[15px] leading-relaxed text-gray-500 mb-[70px]"
+        >
+          {t.focusAreas.intro}
+        </p>
 
         <div className="grid grid-cols-1 md:grid-cols-[0.9fr_2fr] gap-[60px]">
           <div
@@ -80,13 +86,18 @@ export default function FocusAreasStack() {
 
           <div
             data-reveal
-            className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-[14.5px] text-gray-600 leading-[2.1] border-t border-gray-200 pt-6"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-gray-200 pt-6"
           >
-            {t.focusAreas.stack.map((col, i) => (
-              <div key={i}>
-                {col.map((item) => (
-                  <div key={item}>{item}</div>
-                ))}
+            {t.focusAreas.columns.map((col) => (
+              <div key={col.label}>
+                <h3 className="text-[13px] font-bold tracking-[0.12em] uppercase text-gray-400 mb-[14px]">
+                  {col.label}
+                </h3>
+                <div className="flex flex-col gap-1.5 text-[14.5px] text-gray-600 leading-[1.7]">
+                  {col.items.map((item) => (
+                    <div key={item}>{item}</div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>

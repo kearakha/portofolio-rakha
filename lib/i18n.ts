@@ -24,46 +24,6 @@ export const translations = {
       text: "Turning ideas into systems that work — clean, measurable, and built to last at faculty scale.",
       side: "Precision. Clarity.\nFlow. Execution.",
     },
-    whatIDo: {
-      headingBefore: "What",
-      headingOutline: "I",
-      headingAfter: "Do",
-      intro:
-        "Backend engineer moonlighting as frontend & data — building academic systems from database to dashboard.",
-      categories: [
-        {
-          label: "Backend",
-          items: [
-            "Laravel Development",
-            "REST API Design",
-            "Multi-tenant Systems",
-            "Database Architecture",
-          ],
-        },
-        {
-          label: "Frontend & Web",
-          items: [
-            "Next.js",
-            "TypeScript",
-            "UI Integration",
-            "Responsive Layouts",
-          ],
-        },
-        {
-          label: "Data & ML",
-          items: [
-            "Python",
-            "NLP Preprocessing",
-            "Classification Models",
-            "Data Pipelines",
-          ],
-        },
-        {
-          label: "Tools & Practices",
-          items: ["Docker", "Git Workflows", "Code Review", "Team Leadership"],
-        },
-      ],
-    },
     selectedCases: {
       sectionLabel: "Selected Cases",
       subtitle: "Faculty-scale systems & side experiments.",
@@ -82,17 +42,56 @@ export const translations = {
     focusAreas: {
       label: "Focus",
       heading: "Areas & Stack",
+      intro:
+        "Backend engineer moonlighting as frontend & data — building academic systems from database to dashboard.",
       categories: [
         { label: "Academic Systems", count: 4 },
         { label: "Machine Learning", count: 2 },
         { label: "Tooling & Automation", count: 2 },
         { label: "Leadership", count: 1 },
       ],
-      stack: [
-        ["Laravel", "MySQL", "REST API", "Multi-tenant"],
-        ["Next.js", "TypeScript", "Chart.js", "Responsive UI"],
-        ["Python", "XGBoost", "TF-IDF", "NLP"],
-        ["Docker", "Git", "PHP", "Mentoring"],
+      columns: [
+        {
+          label: "Backend",
+          items: [
+            "Laravel Development",
+            "REST API Design",
+            "Multi-tenant Systems",
+            "Database Architecture",
+            "MySQL",
+          ],
+        },
+        {
+          label: "Frontend & Web",
+          items: [
+            "Next.js",
+            "TypeScript",
+            "UI Integration",
+            "Responsive Layouts",
+            "Chart.js",
+          ],
+        },
+        {
+          label: "Data & ML",
+          items: [
+            "Python",
+            "NLP Preprocessing",
+            "Classification Models",
+            "Data Pipelines",
+            "XGBoost",
+            "TF-IDF",
+          ],
+        },
+        {
+          label: "Tools & Practices",
+          items: [
+            "Docker",
+            "Git Workflows",
+            "Code Review",
+            "Team Leadership",
+            "PHP",
+          ],
+        },
       ],
     },
     selectedWork: {
@@ -210,46 +209,6 @@ export const translations = {
       text: "Mengubah ide menjadi sistem yang bekerja — rapi, terukur, dan tahan lama di skala fakultas.",
       side: "Presisi. Kejelasan.\nAlur. Eksekusi.",
     },
-    whatIDo: {
-      headingBefore: "Yang",
-      headingOutline: "Saya",
-      headingAfter: "Kerjakan",
-      intro:
-        "Backend engineer merangkap frontend & data — membangun sistem akademik dari database sampai dashboard.",
-      categories: [
-        {
-          label: "Backend",
-          items: [
-            "Laravel Development",
-            "REST API Design",
-            "Sistem Multi-tenant",
-            "Arsitektur Database",
-          ],
-        },
-        {
-          label: "Frontend & Web",
-          items: ["Next.js", "TypeScript", "Integrasi UI", "Layout Responsif"],
-        },
-        {
-          label: "Data & ML",
-          items: [
-            "Python",
-            "NLP Preprocessing",
-            "Model Klasifikasi",
-            "Data Pipeline",
-          ],
-        },
-        {
-          label: "Tools & Practices",
-          items: [
-            "Docker",
-            "Alur Kerja Git",
-            "Code Review",
-            "Kepemimpinan Tim",
-          ],
-        },
-      ],
-    },
     selectedCases: {
       sectionLabel: "Karya Pilihan",
       subtitle: "Sistem skala fakultas & eksperimen sampingan.",
@@ -268,17 +227,56 @@ export const translations = {
     focusAreas: {
       label: "Fokus",
       heading: "Area & Stack",
+      intro:
+        "Backend engineer merangkap frontend & data — membangun sistem akademik dari database sampai dashboard.",
       categories: [
         { label: "Sistem Akademik", count: 4 },
         { label: "Machine Learning", count: 2 },
         { label: "Tooling & Otomasi", count: 2 },
         { label: "Kepemimpinan", count: 1 },
       ],
-      stack: [
-        ["Laravel", "MySQL", "REST API", "Multi-tenant"],
-        ["Next.js", "TypeScript", "Chart.js", "Responsive UI"],
-        ["Python", "XGBoost", "TF-IDF", "NLP"],
-        ["Docker", "Git", "PHP", "Mentoring"],
+      columns: [
+        {
+          label: "Backend",
+          items: [
+            "Laravel Development",
+            "REST API Design",
+            "Sistem Multi-tenant",
+            "Arsitektur Database",
+            "MySQL",
+          ],
+        },
+        {
+          label: "Frontend & Web",
+          items: [
+            "Next.js",
+            "TypeScript",
+            "Integrasi UI",
+            "Layout Responsif",
+            "Chart.js",
+          ],
+        },
+        {
+          label: "Data & ML",
+          items: [
+            "Python",
+            "NLP Preprocessing",
+            "Model Klasifikasi",
+            "Data Pipeline",
+            "XGBoost",
+            "TF-IDF",
+          ],
+        },
+        {
+          label: "Tools & Practices",
+          items: [
+            "Docker",
+            "Alur Kerja Git",
+            "Code Review",
+            "Kepemimpinan Tim",
+            "PHP",
+          ],
+        },
       ],
     },
     selectedWork: {
