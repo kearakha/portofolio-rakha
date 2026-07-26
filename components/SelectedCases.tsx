@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLang } from "@/context/LanguageContext";
@@ -15,6 +16,7 @@ type Case = {
   image: string | null;
   bg: string;
   initials: string;
+  href: string;
 };
 
 type Props = {
@@ -26,6 +28,7 @@ type Props = {
     image: string | null;
     bg: string | null;
     initials: string | null;
+    href: string;
   }[];
 };
 
@@ -44,6 +47,7 @@ export default function SelectedCases({ items }: Props) {
     image: c.image,
     bg: c.bg || "#1c1c1c",
     initials: c.initials || "",
+    href: c.href,
   }));
 
   const categories = Array.from(new Set(CASES.map((c) => c.category)));
@@ -163,6 +167,26 @@ export default function SelectedCases({ items }: Props) {
                   <span className="text-xs font-semibold text-gray-400">
                     {c.year}
                   </span>
+                </div>
+                <div className="mt-3 flex justify-end gap-2.5">
+                  <Link
+                    href={`/work/${c.id}`}
+                    data-cursor
+                    className="cursor-pointer text-[13px] font-semibold tracking-[0.02em] px-4 py-[9px] rounded-full border border-gray-300 text-gray-700 hover:border-gray-900 hover:text-gray-900 transition-colors"
+                  >
+                    {t.selectedCases.seeLabel}
+                  </Link>
+                  {c.href && c.href !== "#" && (
+                    <a
+                      href={c.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-cursor
+                      className="cursor-pointer text-[13px] font-semibold tracking-[0.02em] px-4 py-[9px] rounded-full bg-gray-900 text-white hover:bg-gray-700 transition-colors"
+                    >
+                      {t.selectedCases.visitLabel}
+                    </a>
+                  )}
                 </div>
               </div>
             ),

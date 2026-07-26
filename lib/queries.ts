@@ -78,6 +78,8 @@ export const getProjects = () =>
     where: { isActive: true },
     orderBy: { order: "asc" },
   });
+export const getProject = (id: string) =>
+  prisma.project.findUnique({ where: { id } });
 export const getEducation = () =>
   prisma.education.findMany({ orderBy: { order: "asc" } });
 export const getContactLinks = () =>

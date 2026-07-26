@@ -70,6 +70,14 @@ export const translations = {
       filters: {
         all: "All",
       },
+      seeLabel: "See details",
+      visitLabel: "Visit",
+    },
+    projectDetail: {
+      back: "Back to work",
+      visit: "Visit live site",
+      techStack: "Tech Stack",
+      notFound: "Project not found",
     },
     focusAreas: {
       label: "Focus",
@@ -248,6 +256,14 @@ export const translations = {
       filters: {
         all: "Semua",
       },
+      seeLabel: "Selengkapnya",
+      visitLabel: "Kunjungi",
+    },
+    projectDetail: {
+      back: "Kembali ke karya",
+      visit: "Kunjungi situs live",
+      techStack: "Tech Stack",
+      notFound: "Proyek tidak ditemukan",
     },
     focusAreas: {
       label: "Fokus",
