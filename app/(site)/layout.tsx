@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const site = await getSite();
   if (!site) return { title: "Portfolio", description: "Portfolio" };
   return {
-    title: `${site.name} · ${site.role}`,
+    title: `${site.shortName} · ${site.role}`,
     description: `Portfolio of ${site.name} — ${site.role} at ${site.institution}. Building backend systems and fullstack apps with Laravel and Next.js.`,
   };
 }
