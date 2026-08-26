@@ -1,23 +1,102 @@
 @import "tailwindcss";
 
+/* ── Design tokens — MASTER.md, Phase 3 (genjutsu:paint) ── */
 :root {
+  /* color — light (default) */
   --background: #FFFFFF;
-  --surface: #F4F4F4;
-  --foreground: #111111;
-  --muted: #6B7280;
-  --border: #E5E7EB;
-  --card-bg: #FFFFFF;
-  --card-border: #E5E7EB;
-  --pill-bg: #F0F0F0;
-  --pill-text: #111111;
+  --background-secondary: #F5F5F7;
+  --surface: #FBFBFD;
+  --foreground: #1D1D1F;
+  --foreground-secondary: #6E6E73;
+  --foreground-tertiary: #86868B;
+  --border: #D2D2D7;
+  --accent: #0071E3;
+  --accent-hover: #0077ED;
+  --accent-active: #006EDB;
+  --success: #34C759;
+  --warning: #FF9500;
+  --error: #FF3B30;
+
+  /* legacy aliases — dipertahankan sampai komponen lama di-migrate Phase 4 */
+  --muted: var(--foreground-secondary);
+  --card-bg: var(--surface);
+  --card-border: var(--border);
+  --pill-bg: var(--background-secondary);
+  --pill-text: var(--foreground);
+
+  /* typography */
+  --font-sans-system: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+
+  /* radii */
+  --radius-none: 0;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 980px;
+
+  /* shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.08);
+
+  /* motion */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 400ms;
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-momentum: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* color — dark [DRAFT, belum ada toggle switch, token siap duluan] */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: #000000;
+    --background-secondary: #1D1D1F;
+    --surface: #161617;
+    --foreground: #F5F5F7;
+    --foreground-secondary: #A1A1A6;
+    --foreground-tertiary: #6E6E73;
+    --border: #424245;
+    --accent: #2997FF;
+    --accent-hover: #3AA0FF;
+    --accent-active: #1E88F0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --background: #000000;
+  --background-secondary: #1D1D1F;
+  --surface: #161617;
+  --foreground: #F5F5F7;
+  --foreground-secondary: #A1A1A6;
+  --foreground-tertiary: #6E6E73;
+  --border: #424245;
+  --accent: #2997FF;
+  --accent-hover: #3AA0FF;
+  --accent-active: #1E88F0;
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background-secondary: var(--background-secondary);
   --color-surface: var(--surface);
-  --color-muted: var(--muted);
+  --color-foreground: var(--foreground);
+  --color-foreground-secondary: var(--foreground-secondary);
+  --color-foreground-tertiary: var(--foreground-tertiary);
   --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-active: var(--accent-active);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-muted: var(--muted);
+  --radius-none: var(--radius-none);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-full: var(--radius-full);
   --font-sans: var(--font-inter);
 }
 
